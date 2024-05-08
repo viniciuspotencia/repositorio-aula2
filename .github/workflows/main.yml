@@ -4,15 +4,8 @@ on:
   push:
     branches:
       - "develop"
-    paths-ignore:
+    paths-ignore: 
       - "*.txt"
-
-      - name: Upload dos arqiuvos PNG para o EFS
-
-        on:
-          push:
-            paths:
-              - '**/*.png'
 
         jobs:
           upload_to_efs:
@@ -20,7 +13,14 @@ on:
             steps:
               - name: Checkout Repository
                 uses: actions/checkout@v2
-              
+                
+      - name: Upload dos arqiuvos PNG para o EFS
+
+        on:
+          push:
+            paths:
+              - '**/*.png'
+
       - name: Install AWS CLI
         run: |
           sudo apt-get update
@@ -28,8 +28,8 @@ on:
       
       - name: Upload dos arqiuvos PNG para o EFS
         run: |
-          aws efs create-mount-target --file-system-id fs-12345678 --subnet-id subnet-12345678 --security-groups sg-12345678
-          aws efs describe-mount-targets --file-system-id fs-12345678
+          aws efs create-mount-target --file-system-id fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com --subnet-id subnet-029ee61487163fa02
+          aws efs describe-mount-targets --file-system-id fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com
           aws efs describe-file-systems
           aws efs describe-mount-target-security-groups --mount-target-id fsmt-87654321
 
