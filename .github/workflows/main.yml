@@ -2,7 +2,7 @@ name: Upload das imagens para o EFS
 
 on:
   push:
-    branchs:
+    branches:
       - "develop"
     paths:
       - '**/*.png'
@@ -14,26 +14,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       
-      - name: Configurando as instancias
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-          sudo mkdir efs
-          sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com efs/
-
+      - name: Criar diretório EFS
+        run: sudo mkdir -p efs
+      
+      - name: Montar o EFS
+        run: sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com:/ efs/
+      
       - name: Upload das imagens para o EFS
         run: |
-          aws efs create-mount-target --file-system-id fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com --subnet-id subnet-029ee61487163fa02 --security-groups sg-12345678
-          aws efs describe-mount-targets --file-system-id fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com
-          
           # Copiar apenas arquivos PNG para o EFS
-          find . -name '*.png' -exec aws efs copy --source {} --destination fs-12345678:/path/to/efs \;
-
-      - name: SNYK AUTH
-        run : |
-          snyk -d auth $SNYK_TOKEN
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_AUTH_TOKEN }}
+          find . -name '*.png' -exec aws s3 cp {} fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com:/ efs/ \;
 
       - name: Configure AWS CLI
         if: always() 
