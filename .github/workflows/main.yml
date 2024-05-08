@@ -2,6 +2,8 @@ name: Upload das imagens para o EFS
 
 on:
   push:
+    branchs:
+      - "develop"
     paths:
       - '**/*.png'
 
