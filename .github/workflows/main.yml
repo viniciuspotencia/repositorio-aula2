@@ -1,5 +1,4 @@
 name: senai_automacao
-run-name: ${{ github.actor }} Pipeline deploy
 on:
   push:
     branches:
@@ -14,7 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
                 
-      - name: Upload dos arqiuvos PNG para o EFS
+      - name: Upload dos arquivos PNG para o EFS
         on:
           push:
             paths:
