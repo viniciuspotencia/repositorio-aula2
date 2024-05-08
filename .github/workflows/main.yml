@@ -18,7 +18,7 @@ jobs:
         run: sudo mkdir -p efs
       
       - name: Montar o EFS
-        run: sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com:efs/
+        run: sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com:/efs/
 
       - name: Upload das imagens para o EFS
         run: |
