@@ -32,7 +32,6 @@ jobs:
           aws efs describe-file-systems
           aws efs describe-mount-target-security-groups --mount-target-id fsmt-87654321
 
-jobs:
   githubactions-senai:
     runs-on: ubuntu-latest
     steps:
