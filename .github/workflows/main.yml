@@ -7,15 +7,14 @@ on:
     paths-ignore: 
       - "*.txt"
 
-        jobs:
-          upload_to_efs:
-            runs-on: ubuntu-latest
-            steps:
-              - name: Checkout Repository
-                uses: actions/checkout@v2
+jobs:
+  upload_to_efs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
                 
       - name: Upload dos arqiuvos PNG para o EFS
-
         on:
           push:
             paths:
