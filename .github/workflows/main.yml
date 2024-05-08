@@ -1,9 +1,7 @@
-name: senai_automacao
+name: Upload das imagens para o EFS
 
 on:
   push:
-    branches:
-      - "develop"
     paths:
       - '**/*.png'
 
@@ -13,47 +11,21 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-                
-      - name: Install AWS CLI
+      
+      - name: Configurando as instancias
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
-      
-      - name: Upload dos arquivos PNG para o EFS
+          sudo mkdir efs
+          sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com efs/
+
+      - name: Upload das imagens para o EFS
         run: |
-          aws efs create-mount-target --file-system-id fs-0d5a3daa8e7d13dcf --subnet-id subnet-029ee61487163fa02 --security-groups sg-12345678
-          aws efs describe-mount-targets --file-system-id fs-0d5a3daa8e7d13dcf
+          aws efs create-mount-target --file-system-id fs-12345678 --subnet-id subnet-12345678 --security-groups sg-12345678
+          aws efs describe-mount-targets --file-system-id fs-12345678
           
-          # Copiar arquivos PNG para o EFS
-          aws efs copy --source . --destination fs-0d5a3daa8e7d13dcf:/path/to/efs --include "*.png"
-
-
-  githubactions-senai:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: INSTALL PACKAGES
-        run: |
-          sudo apt update -y
-          sudo apt-get install figlet unzip -y
-
-          curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
-          chmod +x ./snyk
-          mv ./snyk /usr/local/bin/
-
-          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
-          wget -O- https://apt.releases.hashicorp.com/gpg | \
-            gpg --dearmor | \
-            sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
-          
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-            https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
-            sudo tee /etc/apt/sources.list.d/hashicorp.list
-
-          sudo apt update -y
-
-          sudo apt-get install terraform -y
+          # Copiar apenas arquivos PNG para o EFS
+          find . -name '*.png' -exec aws efs copy --source {} --destination fs-12345678:/path/to/efs \;
 
       - name: SNYK AUTH
         run : |
