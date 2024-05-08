@@ -56,3 +56,4 @@ jobs:
           terraform apply -var="github_sha=$COMMIT_SHA" --auto-approve
         env:
           GITHUB_SHA: ${{ github.sha }}
+          
