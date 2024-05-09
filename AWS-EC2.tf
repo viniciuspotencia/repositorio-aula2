@@ -14,11 +14,13 @@ resource "aws_instance" "ec2_instance-1" {
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
-              sudo apt install cifs-utils -y
-              sudo apt install nfs-common -y
-              sudo mkdir /mnt/efs
+              yum install cifs-utils -y
+              yum install nfs-common -y
+              yum install git -y
+              mkdir /mnt/efs
               cd /mnt
-              sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-04b9500dc3d751aa5.efs.us-east-1.amazonaws.com:/ efs
+              sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0a171a9308412636e.efs.us-east-1.amazonaws.com:/ efs
+              git clone https://
               EOF
 
   tags = {
