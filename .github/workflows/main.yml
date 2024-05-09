@@ -18,7 +18,7 @@ jobs:
 
       - name: Upload das imagens para o EFS
         run: |
-          # Copiar apenas arquivos PNG para o EFS
+          # Copiar apenas arquivos JPG para o EFS
           find . -name '*.jpg' -exec sudo cp {} /mnt/efs \;
 
       - name: Configure AWS CLI
