@@ -16,57 +16,52 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Configure AWS CLI
-        if: always() 
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
-
-      - name: Test aws cli
-        if: always()
-        run: aws sts get-caller-identity
-
-      - name: Terraform Apply
-        if: always()
-        run: |
-          COMMIT_SHA=$(echo $GITHUB_SHA | cut -c 1-5)
-          terraform init
-          terraform apply -var="github_sha=$COMMIT_SHA" --auto-approve
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-
-      - name: Configure AWS CLI
-        if: always() 
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
-
-      - name: Test aws cli
-        if: always()
-        run: aws sts get-caller-identity
-
-      - name: Terraform Apply
-        if: always()
-        run: |
-          COMMIT_SHA=$(echo $GITHUB_SHA | cut -c 1-5)
-          terraform init
-          terraform apply -var="github_sha=$COMMIT_SHA" --auto-approve
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-      
-      - name: Criar diretório EFS
-        run: sudo mkdir -p efs
-      
-      - name: Montar o EFS
-        run: sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-00437f50f7231531e.efs.us-east-1.amazonaws.com:/ efs
-
       - name: Upload das imagens para o EFS
         run: |
           # Copiar apenas arquivos PNG para o EFS
-          find . -name '*.png' -exec sudo cp {} efs/ \;
+          find . -name '*.jpg' -exec sudo cp {} /mnt/efs \;
+
+      - name: Configure AWS CLI
+        if: always() 
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Test aws cli
+        if: always()
+        run: aws sts get-caller-identity
+
+      - name: Terraform Apply
+        if: always()
+        run: |
+          COMMIT_SHA=$(echo $GITHUB_SHA | cut -c 1-5)
+          terraform init
+          terraform apply -var="github_sha=$COMMIT_SHA" --auto-approve
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+
+      - name: Configure AWS CLI
+        if: always() 
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Test aws cli
+        if: always()
+        run: aws sts get-caller-identity
+
+      - name: Terraform Apply
+        if: always()
+        run: |
+          COMMIT_SHA=$(echo $GITHUB_SHA | cut -c 1-5)
+          terraform init
+          terraform apply -var="github_sha=$COMMIT_SHA" --auto-approve
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+
