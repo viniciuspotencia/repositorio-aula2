@@ -15,8 +15,11 @@ resource "aws_instance" "ec2_instance-1" {
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
-              sudo mkdir efs
-              sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com /efs
+              sudo apt install cifs-utils -y
+              sudo apt install nfs-common -y
+              sudo mkdir /mnt/efs
+              cd /mnt
+              sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-00437f50f7231531e.efs.us-east-1.amazonaws.com:/ efs
               EOF
 
   tags = {
@@ -35,8 +38,9 @@ resource "aws_instance" "ec2_instance-2" {
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
-              sudo mkdir efs
-              sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com /efs
+              sudo mkdir /mnt/efs
+              sudo cd /mnt/efs
+              sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com /mnt/efs
               EOF
 
   tags = {
@@ -59,6 +63,13 @@ resource "aws_security_group" "instance_sg" {
   ingress {
     from_port   = 8080
     to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 2049
+    to_port     = 2049
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
