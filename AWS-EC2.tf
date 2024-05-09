@@ -16,7 +16,7 @@ resource "aws_instance" "ec2_instance-1" {
               #!/bin/bash
               yum update -y
               sudo mkdir efs
-              sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com efs/
+              sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com /efs
               EOF
 
   tags = {
@@ -36,7 +36,7 @@ resource "aws_instance" "ec2_instance-2" {
               #!/bin/bash
               yum update -y
               sudo mkdir efs
-              sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com efs/
+              sudo mount -t efs -o tls fs-0d5a3daa8e7d13dcf.efs.us-east-1.amazonaws.com /efs
               EOF
 
   tags = {
