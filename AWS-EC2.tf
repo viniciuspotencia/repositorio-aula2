@@ -8,8 +8,8 @@ resource "aws_instance" "ec2_instance-1" {
   ami           = "ami-04ff98ccbfa41c9ad"
   instance_type = "t2.micro"
   subnet_id     = "subnet-029ee61487163fa02" # ID da Subnet
-  vpc_security_group_ids = ["${aws_security_group.instance_sg.id}"]
-
+#  vpc_security_group_ids = ["${aws_security_group.instance_sg.id}"]
+  vpc_security_group_ids = "grupo-seguranca-linux-1"
   key_name = "vockey"
 
   user_data = <<-EOF
