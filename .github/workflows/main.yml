@@ -8,6 +8,7 @@ on:
       - 'imagens/**/*.png'
       - 'imagens/**/*.jpg'
       - 'imagens/**/*.jfif'
+      - 'imagens/**/*.jpeg'
 
 jobs:
   upload_to_efs:
