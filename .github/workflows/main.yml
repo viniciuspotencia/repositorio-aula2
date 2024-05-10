@@ -5,7 +5,8 @@ on:
     branches:
       - "develop"
     paths:
-      - 'imagens/*.png'
+      - 'imagens/**/*.png'
+
 
 
 
