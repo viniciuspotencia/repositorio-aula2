@@ -49,7 +49,7 @@ resource "aws_instance" "ec2_instance-2" {
               sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-09c2a0b4372469332.efs.us-east-1.amazonaws.com:/ efs
               cp -r /repositorio-aula2/imagens /mnt/efs
               EOF
-
+              
   tags = {
     Name = "EC2_Instance-2"
   }
