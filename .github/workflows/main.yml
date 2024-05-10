@@ -1,4 +1,4 @@
-name: Upload das imagens para o EFS
+name: Pipeline
 
 on:
   push:
