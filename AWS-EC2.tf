@@ -20,8 +20,8 @@ resource "aws_instance" "ec2_instance-1" {
               git clone https://github.com/viniciuspotencia/repositorio-aula2.git
               mkdir /mnt/efs
               cd /mnt
-              sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0a171a9308412636e.efs.us-east-1.amazonaws.com:/ efs
-              cp /repositorio-aula2 /mnt/efs
+              sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-08e844497a10ae136.efs.us-east-1.amazonaws.com:/ efs
+              cp /repositorio-aula2/imagens /mnt/efs
               EOF
 
   tags = {
@@ -46,8 +46,8 @@ resource "aws_instance" "ec2_instance-2" {
               git clone https://github.com/viniciuspotencia/repositorio-aula2.git
               mkdir /mnt/efs
               cd /mnt
-              sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0a171a9308412636e.efs.us-east-1.amazonaws.com:/ efs
-              cp /repositorio-aula2 /mnt/efs
+              sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-08e844497a10ae136.efs.us-east-1.amazonaws.com:/ efs
+              cp /repositorio-aula2/imagens /mnt/efs
               EOF
 
   tags = {
