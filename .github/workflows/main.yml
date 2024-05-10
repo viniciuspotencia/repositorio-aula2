@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - "develop"
-    paths:
-      - '*/imagens/*.jpg'
-      - '*/imagens/*.png'
-      - '*/imagens/*.jfif'
+
 
 jobs:
   upload_to_efs:
